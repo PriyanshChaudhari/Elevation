@@ -22,10 +22,8 @@ import org.jetbrains.annotations.Nullable;
 public class MusicHandler implements AudioSendHandler {
 
   public final @NotNull AudioPlayer audioPlayer;
-  private AudioFrame lastFrame;
-
   public final @NotNull LinkedList<AudioTrack> queue;
-
+  private AudioFrame lastFrame;
   private TextChannel logChannel;
 
   private @Nullable AudioChannel playChannel;
@@ -42,6 +40,13 @@ public class MusicHandler implements AudioSendHandler {
     audioPlayer.addListener(scheduler);
   }
 
+  public static String getThumbnail(AudioTrack track) {
+    String domain = SecurityUtils.getDomain(track.getInfo().uri);
+    if (domain.equalsIgnoreCase("spotify") || domain.equalsIgnoreCase("apple")) {
+      return ((ISRCAudioTrack) track).getArtworkURL();
+    }
+    return String.format("https://img.youtube.com/vi/%s/0.jpg", track.getIdentifier());
+  }
 
   public void enqueue(AudioTrack track) {
     queue.addLast(track);
@@ -49,7 +54,6 @@ public class MusicHandler implements AudioSendHandler {
       audioPlayer.playTrack(queue.getFirst());
     }
   }
-
 
   public void pause() {
     audioPlayer.setPaused(true);
@@ -69,14 +73,14 @@ public class MusicHandler implements AudioSendHandler {
     audioPlayer.stopTrack();
   }
 
-
-  public void setVolume(int volume) {audioPlayer.setVolume(volume);}
+  public void setVolume(int volume) {
+    audioPlayer.setVolume(volume);
+  }
 
   public void skipTrack() {
     isSkip = true;
     audioPlayer.getPlayingTrack().setPosition(audioPlayer.getPlayingTrack().getDuration());
   }
-
 
   public @NotNull LinkedList<AudioTrack> getQueue() {
     return new LinkedList<>(queue);
@@ -90,11 +94,9 @@ public class MusicHandler implements AudioSendHandler {
     playChannel = channel;
   }
 
-
   public void setLogChannel(TextChannel channel) {
     logChannel = channel;
   }
-
 
   public boolean isLoop() {
     return isLoop;
@@ -136,7 +138,8 @@ public class MusicHandler implements AudioSendHandler {
     }
 
     @Override
-    public void onTrackEnd(@NotNull AudioPlayer player, @NotNull AudioTrack track, @NotNull AudioTrackEndReason endReason) {
+    public void onTrackEnd(@NotNull AudioPlayer player, @NotNull AudioTrack track,
+        @NotNull AudioTrackEndReason endReason) {
       if (handler.isLoop() && !handler.isSkip) {
         // Loop current track
         handler.queue.set(0, track.makeClone());
@@ -152,18 +155,11 @@ public class MusicHandler implements AudioSendHandler {
     }
 
     @Override
-    public void onTrackException(AudioPlayer player, AudioTrack track, @NotNull FriendlyException exception) {
+    public void onTrackException(AudioPlayer player, AudioTrack track,
+        @NotNull FriendlyException exception) {
       String message = "An error occurred! " + exception.getMessage();
       handler.logChannel.sendMessageEmbeds(EmbedManager.createError(message)).queue();
       exception.printStackTrace();
     }
-  }
-
-  public static String getThumbnail(AudioTrack track) {
-    String domain = SecurityUtils.getDomain(track.getInfo().uri);
-    if (domain.equalsIgnoreCase("spotify") || domain.equalsIgnoreCase("apple")) {
-      return ((ISRCAudioTrack) track).getArtworkURL();
-    }
-    return String.format("https://img.youtube.com/vi/%s/0.jpg", track.getIdentifier());
   }
 }

@@ -6,12 +6,10 @@ import java.util.Map;
 import net.dv8tion.jda.api.entities.Guild;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings({"unused", "MismatchedQueryAndUpdateOfCollection"})
+@SuppressWarnings("unused")
 public class GuildData {
 
   private static final Map<Long, GuildData> guilds = new HashMap<>();
-
-
   public MusicHandler musicHandler;
 
   private GuildData(Guild guild) {

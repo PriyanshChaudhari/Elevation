@@ -15,15 +15,12 @@ import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import java.net.MalformedURLException;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.entities.channel.middleman.AudioChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.interactions.components.buttons.Button;
-import net.dv8tion.jda.api.interactions.components.buttons.ButtonStyle;
 import net.dv8tion.jda.api.managers.AudioManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -41,14 +38,16 @@ public class MusicListener extends ListenerAdapter {
     spotifyConfig.setClientId(spotifyClientId);
     spotifyConfig.setClientSecret(spotifyClientSecret);
     spotifyConfig.setCountryCode("IN");
-    this.playerManager.registerSourceManager(new SpotifySourceManager(null, spotifyConfig, playerManager));
+    this.playerManager.registerSourceManager(
+        new SpotifySourceManager(null, spotifyConfig, playerManager));
 
     // Add audio player to source manager
     AudioSourceManagers.registerRemoteSources(playerManager);
   }
 
   @Nullable
-  public MusicHandler getMusic(@NotNull SlashCommandInteractionEvent event, boolean skipQueueCheck) {
+  public MusicHandler getMusic(@NotNull SlashCommandInteractionEvent event,
+      boolean skipQueueCheck) {
     GuildData settings = GuildData.get(event.getGuild());
     // Check if user is in voice channel
     if (!inChannel(Objects.requireNonNull(event.getMember()))) {
@@ -127,7 +126,8 @@ public class MusicListener extends ListenerAdapter {
   }
 
 
-  public void joinChannel(@NotNull GuildData guildData, @NotNull AudioChannel channel, TextChannel logChannel) {
+  public void joinChannel(@NotNull GuildData guildData, @NotNull AudioChannel channel,
+      TextChannel logChannel) {
     AudioManager manager = channel.getGuild().getAudioManager();
     if (guildData.musicHandler == null) {
       guildData.musicHandler = new MusicHandler(playerManager.createPlayer());
@@ -138,6 +138,7 @@ public class MusicListener extends ListenerAdapter {
     manager.openAudioConnection(channel);
   }
 
+  @SuppressWarnings("BooleanMethodIsAlwaysInverted")
   public boolean inChannel(@NotNull Member member) {
     return member.getVoiceState() != null && member.getVoiceState().inAudioChannel();
   }
@@ -145,22 +146,25 @@ public class MusicListener extends ListenerAdapter {
 
   public void addTrack(SlashCommandInteractionEvent event, String url, String userID) {
     MusicHandler music = GuildData.get(event.getGuild()).musicHandler;
-    if (music == null) return;
+    if (music == null) {
+      return;
+    }
 
     // Check for SSRF vulnerability with whitelist
     try {
       boolean isWhitelisted = SecurityUtils.isUrlWhitelisted(url);
-      if(!isWhitelisted) {
+      if (!isWhitelisted) {
         url = "";
       }
-    } catch(MalformedURLException ignored) {}
+    } catch (MalformedURLException ignored) {
+    }
     playerManager.loadItem(url, new AudioLoadResultHandler() {
 
       @Override
       public void trackLoaded(@NotNull AudioTrack audioTrack) {
         audioTrack.setUserData(userID);
         music.enqueue(audioTrack);
-        event.reply("Added **"+audioTrack.getInfo().title+"** to the queue.").queue();
+        event.reply("Added **" + audioTrack.getInfo().title + "** to the queue.").queue();
       }
 
       @Override
@@ -173,8 +177,12 @@ public class MusicListener extends ListenerAdapter {
 
         // Otherwise load first 100 tracks from playlist
         int total = audioPlaylist.getTracks().size();
-        if (total > 100) total = 100;
-        event.reply("Added **"+audioPlaylist.getName()+"** with `"+total+"` songs to the queue.").queue();
+        if (total > 100) {
+          total = 100;
+        }
+        event.reply(
+                "Added **" + audioPlaylist.getName() + "** with `" + total + "` songs to the queue.")
+            .queue();
 
         total = music.getQueue().size();
         for (AudioTrack track : audioPlaylist.getTracks()) {

@@ -16,7 +16,9 @@ public class RepeatCommand extends Command {
   @Override
   public void execute(SlashCommandInteractionEvent event) {
     MusicHandler music = bot.musicListener.getMusic(event, false);
-    if (music == null) return;
+    if (music == null) {
+      return;
+    }
 
     music.loop();
     String text;

@@ -17,15 +17,15 @@ public class ButtonRegistry extends ListenerAdapter {
   public ButtonRegistry(DiscordBot bot) {
     mapButtons(
         new Skip(bot),
-      new Pause(bot),
-      new Repeat(bot),
-      new VolumeUp(bot),
-      new VolumeDown(bot)
+        new Pause(bot),
+        new Repeat(bot),
+        new VolumeUp(bot),
+        new VolumeDown(bot)
     );
   }
 
-  private void mapButtons(Button...btns){
-    for (Button btn : btns){
+  private void mapButtons(Button... btns) {
+    for (Button btn : btns) {
       buttonsMap.put(btn.name, btn);
       buttons.add(btn);
     }
@@ -34,7 +34,7 @@ public class ButtonRegistry extends ListenerAdapter {
   @Override
   public void onButtonInteraction(ButtonInteractionEvent event) {
     Button btn = buttonsMap.get(event.getButton().getId());
-    if (btn != null){
+    if (btn != null) {
       btn.execute(event);
     }
   }

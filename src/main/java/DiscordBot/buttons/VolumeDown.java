@@ -12,6 +12,7 @@ import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.interactions.components.buttons.ButtonStyle;
 import net.dv8tion.jda.api.utils.messages.MessageEditData;
 
+@SuppressWarnings("ConstantConditions")
 public class VolumeDown extends Button {
 
   public VolumeDown(DiscordBot bot) {
@@ -28,22 +29,25 @@ public class VolumeDown extends Button {
   public void execute(ButtonInteractionEvent event) {
     MusicListener music = bot.musicListener;
     MusicHandler musicHandler = GuildData.get(event.getGuild()).musicHandler;
-    AudioTrack nowPlaying = musicHandler.getQueue().size() > 0 ? musicHandler.getQueue().getFirst() : null;
+    AudioTrack nowPlaying =
+        musicHandler.getQueue().size() > 0 ? musicHandler.getQueue().getFirst() : null;
     int volume = (music.getMusic(event, true).audioPlayer.getVolume());
 
-    if (volume >=10) {
+    if (volume >= 10) {
       music.getMusic(event, true)
           .setVolume(volume - 10);
       event.getMessage().editMessage(
-          MessageEditData.fromCreateData(
-              MessageBuilderManager.trackInfo(nowPlaying, musicHandler)))
+              MessageEditData.fromCreateData(
+                  MessageBuilderManager.trackInfo(nowPlaying, musicHandler)))
           .and(event.getInteraction().editButton(ButtonManager.volumeDown()))
           .queue();
     }
-    if (volume<=0) {
-      event.getMessage().editMessage(MessageEditData.fromCreateData(MessageBuilderManager.trackInfo(nowPlaying, musicHandler)))
-          .and(event.getInteraction().editButton(ButtonManager.volumeDown().withLabel("Min Volume").withStyle(
-              ButtonStyle.SUCCESS).asDisabled())).queue();
+    if (volume < 10) {
+      event.getMessage().editMessage(
+              MessageEditData.fromCreateData(MessageBuilderManager.trackInfo(nowPlaying, musicHandler)))
+          .and(event.getInteraction()
+              .editButton(ButtonManager.volumeDown().withLabel("Min Volume").withStyle(
+                  ButtonStyle.SUCCESS).asDisabled())).queue();
     }
   }
 }

@@ -6,7 +6,6 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
 
 
@@ -59,12 +58,12 @@ public class EmbedManager {
 
   public static MessageEmbed welcome(GuildMemberJoinEvent event) {
     String user = event.getUser().getAsMention();
-    if (event.getUser().getAvatar().getUrl() != null) {
+    if (event.getUser().getEffectiveAvatarUrl().isEmpty()) {
       return new EmbedBuilder()
-          .setTitle("#welcome " + Emoji.fromFormatted("✨"))
+          .setTitle("#welcome ")
           .setDescription("Hello " + user)
           .appendDescription("\nWelcome to Blue Ocean...")
-          .setThumbnail(event.getUser().getAvatar().getUrl())
+          .setThumbnail("F:\\Discord\\Elevation\\src\\main\\resources\\7954692_Sq.png")
           .setColor(EmbedColor.GREEN.color)
           .setFooter(event.getMember().getTimeJoined()
               .format(DateTimeFormatter.ofPattern(" dd.MM.yy | hh.mm a")
@@ -72,10 +71,10 @@ public class EmbedManager {
           .build();
     }
     return new EmbedBuilder()
-        .setTitle("#welcome " + Emoji.fromFormatted("✨"))
+        .setTitle("#welcome ")
         .setDescription("Hello " + user)
         .appendDescription("\nWelcome to Blue Ocean...")
-        .setThumbnail("F:\\Discord\\Elevation\\src\\main\\resources\\7954692_Sq.png")
+        .setThumbnail(event.getUser().getEffectiveAvatarUrl())
         .setColor(EmbedColor.GREEN.color)
         .setFooter(event.getMember().getTimeJoined()
             .format(DateTimeFormatter.ofPattern(" dd.MM.yy | hh.mm a")

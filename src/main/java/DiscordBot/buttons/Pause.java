@@ -11,6 +11,7 @@ import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.interactions.components.buttons.ButtonStyle;
 import net.dv8tion.jda.api.utils.messages.MessageEditData;
 
+@SuppressWarnings("ConstantConditions")
 public class Pause extends Button {
 
   public Pause(DiscordBot bot) {
@@ -22,24 +23,27 @@ public class Pause extends Button {
   public void execute(ButtonInteractionEvent event) {
     MusicHandler music = bot.musicListener.getMusic(event, false);
     AudioTrack nowPlaying = music.getQueue().size() > 0 ? music.getQueue().getFirst() : null;
-    if (music == null) return;
+    if (music == null) {
+      return;
+    }
 
     if (music.isPaused()) {
-      if (music.isPaused()){
+      if (music.isPaused()) {
         music.unpause();
         event.getMessage().editMessage(MessageEditData.fromCreateData(
                 MessageBuilderManager.trackInfo(nowPlaying, music)))
-            .and(event.getInteraction().editButton(ButtonManager.pause().withStyle(ButtonStyle.PRIMARY).withLabel("Pause ⏸"))).queue();
-      }
-      else {
+            .and(event.getInteraction().editButton(
+                ButtonManager.pause().withStyle(ButtonStyle.PRIMARY).withLabel("Pause ⏸"))).queue();
+      } else {
         String message = "The player is already paused!";
         event.replyEmbeds(EmbedManager.default01(message)).setEphemeral(true).queue();
       }
     } else {
       music.pause();
       event.getMessage().editMessage(MessageEditData.fromCreateData(
-          MessageBuilderManager.trackInfo(nowPlaying, music)))
-          .and(event.getInteraction().editButton(ButtonManager.pause().withStyle(ButtonStyle.SUCCESS).withLabel("Resume ⏯"))).queue();
+              MessageBuilderManager.trackInfo(nowPlaying, music)))
+          .and(event.getInteraction().editButton(
+              ButtonManager.pause().withStyle(ButtonStyle.SUCCESS).withLabel("Resume ⏯"))).queue();
     }
   }
 

@@ -16,7 +16,9 @@ public class PauseCommand extends Command {
   @Override
   public void execute(SlashCommandInteractionEvent event) {
     MusicHandler music = bot.musicListener.getMusic(event, false);
-    if (music == null) return;
+    if (music == null) {
+      return;
+    }
 
     if (music.isPaused()) {
       String message = "The player is already paused!";

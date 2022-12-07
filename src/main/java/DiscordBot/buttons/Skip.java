@@ -10,6 +10,7 @@ import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.requests.restaction.interactions.ReplyCallbackAction;
 import net.dv8tion.jda.api.utils.messages.MessageEditData;
 
+@SuppressWarnings("ConstantConditions")
 public class Skip extends Button {
 
   public Skip(DiscordBot bot) {
@@ -26,7 +27,9 @@ public class Skip extends Button {
   public void execute(ButtonInteractionEvent event) {
     MusicHandler music = bot.musicListener.getMusic(event, false);
     AudioTrack nowPlaying = music.getQueue().size() > 0 ? music.getQueue().getFirst() : null;
-    if (music == null) return;
+    if (music == null) {
+      return;
+    }
 
     music.skipTrack();
     ReplyCallbackAction action = event.reply(":fast_forward: Skipping...");

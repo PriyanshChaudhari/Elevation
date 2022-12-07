@@ -9,5 +9,6 @@ public abstract class Button extends Command {
   public Button(DiscordBot bot) {
     super(bot);
   }
+
   public abstract void execute(ButtonInteractionEvent event);
 }

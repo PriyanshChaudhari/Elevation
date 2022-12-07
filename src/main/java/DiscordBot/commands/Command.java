@@ -9,20 +9,16 @@ import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 
 public abstract class Command {
 
-  public DiscordBot bot;
+  public final DiscordBot bot;
   public String name;
   public String description;
-  public List<OptionData> args;
-  public List<SubcommandData> subCommands;
+  public final List<OptionData> args;
+  public final List<SubcommandData> subCommands;
 
   public Command(DiscordBot bot) {
     this.bot = bot;
     this.args = new ArrayList<>();
     this.subCommands = new ArrayList<>();
-  }
-
-  public DiscordBot getBot() {
-    return bot;
   }
 
   public abstract void execute(SlashCommandInteractionEvent event);

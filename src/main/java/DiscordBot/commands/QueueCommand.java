@@ -4,7 +4,6 @@ import DiscordBot.BotUtilities.EmbedManager;
 import DiscordBot.BotUtilities.GuildData;
 import DiscordBot.DiscordBot;
 import DiscordBot.LavaPlayer.MusicHandler;
-import DiscordBot.LavaPlayer.MusicListener;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 import java.util.ArrayList;
@@ -43,7 +42,8 @@ public class QueueCommand extends Command {
     action.queue();
   }
 
-  private @NotNull List<MessageEmbed> buildQueueEmbeds(@NotNull LinkedList<AudioTrack> queue, int queueSize) {
+  private @NotNull List<MessageEmbed> buildQueueEmbeds(@NotNull LinkedList<AudioTrack> queue,
+      int queueSize) {
     int count = 0;
     StringBuilder description = new StringBuilder();
     List<MessageEmbed> embeds = new ArrayList<>();
@@ -52,7 +52,9 @@ public class QueueCommand extends Command {
         .setTitle("Music PlayList");
 
     String song = "Song";
-    if (queueSize >= 3) { song += "s";}
+    if (queueSize >= 3) {
+      song += "s";
+    }
     String footer = queueSize > 1 ? String.format("\n**%s %s in Queue**", queueSize - 1, song) : "";
 
     for (AudioTrack track : queue) {

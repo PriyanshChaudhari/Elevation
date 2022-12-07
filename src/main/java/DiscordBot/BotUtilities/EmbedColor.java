@@ -6,6 +6,7 @@ public enum EmbedColor {
   GREEN(0X34fc2d),
   ERROR(0Xf74939);
   public final int color;
+
   EmbedColor(int hexCode) {
     this.color = hexCode;
   }

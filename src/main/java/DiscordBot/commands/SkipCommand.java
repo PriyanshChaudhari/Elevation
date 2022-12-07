@@ -16,7 +16,9 @@ public class SkipCommand extends Command {
 
   public void execute(SlashCommandInteractionEvent event) {
     MusicHandler music = bot.musicListener.getMusic(event, false);
-    if (music == null) return;
+    if (music == null) {
+      return;
+    }
 
     music.skipTrack();
     ReplyCallbackAction action = event.reply(":fast_forward: Skipping...");

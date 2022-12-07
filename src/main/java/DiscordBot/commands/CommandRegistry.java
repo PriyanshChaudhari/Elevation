@@ -35,24 +35,25 @@ public class CommandRegistry extends ListenerAdapter {
     );
   }
 
-  private void mapCommand(Command ...cmds) {
-    for (Command cmd : cmds) {
-      commandsMap.put(cmd.name, cmd);
-      commands.add(cmd);
-    }
-  }
-
   public static List<CommandData> unpackCommandData() {
     // Register slash PlayCommand
     List<CommandData> commandData = new ArrayList<>();
     for (Command command : commands) {
-      SlashCommandData slashCommand = Commands.slash(command.name, command.description).addOptions(command.args);
+      SlashCommandData slashCommand = Commands.slash(command.name, command.description)
+          .addOptions(command.args);
       if (!command.subCommands.isEmpty()) {
         slashCommand.addSubcommands(command.subCommands);
       }
       commandData.add(slashCommand);
     }
     return commandData;
+  }
+
+  private void mapCommand(Command... cmds) {
+    for (Command cmd : cmds) {
+      commandsMap.put(cmd.name, cmd);
+      commands.add(cmd);
+    }
   }
 
   @Override
@@ -67,6 +68,8 @@ public class CommandRegistry extends ListenerAdapter {
   @Override
   public void onGuildReady(@NotNull GuildReadyEvent event) {
     GuildData.get(event.getGuild());
-    event.getGuild().updateCommands().addCommands(unpackCommandData()).queue(succ -> {}, fail -> {});
+    event.getGuild().updateCommands().addCommands(unpackCommandData()).queue(succ -> {
+    }, fail -> {
+    });
   }
 }
