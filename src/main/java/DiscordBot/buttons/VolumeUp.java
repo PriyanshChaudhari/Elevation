@@ -34,10 +34,6 @@ public class VolumeUp extends Button {
     int volume = (music.getMusic(event, true).audioPlayer.getVolume());
 
     if (volume <= 90) {
-      if (event.getMessage().getButtonById("vol-up").getStyle()==ButtonStyle.SUCCESS
-          || event.getMessage().getButtonById("vol-up").isDisabled()){
-        event.getMessage().editMessage(MessageEditData.fromCreateData(MessageBuilderManager.trackInfo(nowPlaying, musicHandler))).queue();
-      }
       music.getMusic(event, true)
           .setVolume(volume + 10);
       event.getMessage().editMessage(

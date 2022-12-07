@@ -86,6 +86,10 @@ public class MusicHandler implements AudioSendHandler {
     return new LinkedList<>(queue);
   }
 
+  public @Nullable AudioChannel getPlayChannel() {
+    return playChannel;
+  }
+
   public void setPlayChannel(@Nullable AudioChannel channel) {
     playChannel = channel;
   }
@@ -94,9 +98,6 @@ public class MusicHandler implements AudioSendHandler {
     logChannel = channel;
   }
 
-  public @Nullable AudioChannel getPlayChannel() {
-    return playChannel;
-  }
   public boolean isLoop() {
     return isLoop;
   }

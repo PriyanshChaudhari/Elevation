@@ -18,7 +18,6 @@ import java.util.Objects;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.entities.channel.middleman.AudioChannel;
-import net.dv8tion.jda.api.events.guild.voice.GuildVoiceUpdateEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -206,18 +205,5 @@ public class MusicListener extends ListenerAdapter {
         event.replyEmbeds(EmbedManager.createError(message)).setEphemeral(true).queue();
       }
     });
-  }
-
-  @Override
-  public void onGuildVoiceUpdate(GuildVoiceUpdateEvent event) {
-    if (event.getJDA().getSelfUser().getIdLong() == event.getMember().getIdLong()) {
-      GuildData data = GuildData.get(event.getGuild());
-      if (data.musicHandler != null) {
-        if (event.getMember().getVoiceState().inAudioChannel()) {
-          data.musicHandler.setPlayChannel(event.getChannelJoined());
-        }
-          data.musicHandler.disconnect();
-      }
-    }
   }
 }
