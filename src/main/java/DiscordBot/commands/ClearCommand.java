@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
+@SuppressWarnings("ConstantConditions")
 public class ClearCommand extends Command {
 
   public ClearCommand(DiscordBot bot) {
@@ -38,6 +39,9 @@ public class ClearCommand extends Command {
           event.getHook().sendMessageEmbeds(EmbedManager.createError(text)).queue();
         }
       });
+    } else {
+      String text = "Clear command is only for Server Owner. You can't use it.";
+      event.getHook().sendMessageEmbeds(EmbedManager.createError(text)).setEphemeral(true).queue();
     }
   }
 }
