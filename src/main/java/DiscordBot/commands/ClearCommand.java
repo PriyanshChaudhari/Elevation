@@ -2,7 +2,6 @@ package DiscordBot.commands;
 
 import DiscordBot.BotUtilities.EmbedManager;
 import DiscordBot.DiscordBot;
-import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
@@ -29,7 +28,7 @@ public class ClearCommand extends Command {
       event.getChannel().getHistory().retrievePast(Math.min(amount + 1, 100)).queue(messages -> {
         try {
           // Delete messages and notify user
-          ((TextChannel) event.getChannel()).deleteMessages(messages).queue(result -> {
+          (event.getChannel().asGuildMessageChannel()).deleteMessages(messages).queue(result -> {
             String text = ":ballot_box_with_check: Cleared `%d` messages!".formatted(amount);
             event.getHook().sendMessage(text).queue();
           });

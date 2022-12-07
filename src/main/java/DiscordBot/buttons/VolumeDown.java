@@ -34,6 +34,10 @@ public class VolumeDown extends Button {
     int volume = (music.getMusic(event, true).audioPlayer.getVolume());
 
     if (volume >= 10) {
+      if (event.getMessage().getButtonById("vol-down").getStyle()==ButtonStyle.SUCCESS
+          || event.getMessage().getButtonById("vol-down").isDisabled()){
+        event.getMessage().editMessage(MessageEditData.fromCreateData(MessageBuilderManager.trackInfo(nowPlaying, musicHandler))).queue();
+      }
       music.getMusic(event, true)
           .setVolume(volume - 10);
       event.getMessage().editMessage(
