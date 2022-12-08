@@ -19,11 +19,6 @@ public class Skip extends Button {
   }
 
   @Override
-  public void execute(SlashCommandInteractionEvent event) {
-
-  }
-
-  @Override
   public void execute(ButtonInteractionEvent event) {
     MusicHandler music = bot.musicListener.getMusic(event, false);
     AudioTrack nowPlaying = music.getQueue().size() > 0 ? music.getQueue().getFirst() : null;
@@ -39,5 +34,9 @@ public class Skip extends Button {
     }
     event.getMessage().editMessage(MessageEditData.fromCreateData(
         MessageBuilderManager.trackInfo(nowPlaying, music))).and(action).queue();
+  }
+
+  @Override
+  public void execute(SlashCommandInteractionEvent event) {
   }
 }

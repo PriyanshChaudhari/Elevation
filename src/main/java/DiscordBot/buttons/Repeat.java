@@ -40,6 +40,5 @@ public class Repeat extends Button {
 
   @Override
   public void execute(SlashCommandInteractionEvent event) {
-
   }
 }

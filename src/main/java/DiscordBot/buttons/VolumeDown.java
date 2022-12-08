@@ -21,11 +21,6 @@ public class VolumeDown extends Button {
   }
 
   @Override
-  public void execute(SlashCommandInteractionEvent event) {
-
-  }
-
-  @Override
   public void execute(ButtonInteractionEvent event) {
     MusicListener music = bot.musicListener;
     MusicHandler musicHandler = GuildData.get(event.getGuild()).musicHandler;
@@ -49,5 +44,9 @@ public class VolumeDown extends Button {
               .editButton(ButtonManager.volumeDown().withLabel("Min Volume").withStyle(
                   ButtonStyle.SUCCESS).asDisabled())).queue();
     }
+  }
+
+  @Override
+  public void execute(SlashCommandInteractionEvent event) {
   }
 }

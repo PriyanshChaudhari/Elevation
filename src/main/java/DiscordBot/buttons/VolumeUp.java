@@ -21,11 +21,6 @@ public class VolumeUp extends Button {
   }
 
   @Override
-  public void execute(SlashCommandInteractionEvent event) {
-
-  }
-
-  @Override
   public void execute(ButtonInteractionEvent event) {
     MusicListener music = bot.musicListener;
     MusicHandler musicHandler = GuildData.get(event.getGuild()).musicHandler;
@@ -50,5 +45,10 @@ public class VolumeUp extends Button {
               .editButton(ButtonManager.volumeUp().withLabel("Volume Full").withStyle(
                   ButtonStyle.SUCCESS).asDisabled())).queue();
     }
+  }
+
+  @Override
+  public void execute(SlashCommandInteractionEvent event) {
+
   }
 }
