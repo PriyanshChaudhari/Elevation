@@ -1,12 +1,15 @@
 package DiscordBot.BotUtilities;
 
 import DiscordBot.LavaPlayer.MusicHandler;
+import DiscordBot.commands.Command;
+import DiscordBot.commands.CommandRegistry;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
 
 public class EmbedManager {
@@ -79,6 +82,24 @@ public class EmbedManager {
         .setFooter(event.getMember().getTimeJoined()
             .format(DateTimeFormatter.ofPattern(" dd.MM.yy | hh.mm a")
                 .withZone(ZoneId.of("Asia/Kolkata"))))
+        .build();
+  }
+
+  public static MessageEmbed helpList(){
+    StringBuilder builder = new StringBuilder();
+
+    //CommandRegistry.commands.stream().map((cmdname, cmddesc)->(String cmdname1 = cmdname.name;String cmddesc1 = cmdname.description))
+      //  .forEach((it)-> builder.append('`').append(it).append('`').append(": ").append("\n"));
+
+    CommandRegistry.commandsMap.forEach((cmdname, cmd)->{
+      builder.append("`").append(cmdname).append("`").append(": "+cmd.description).append("\n");
+    });
+
+
+    return new EmbedBuilder()
+        .setTitle("Elevation Commands")
+        .setDescription(builder)
+        .setColor(EmbedColor.DEFAULT.color)
         .build();
   }
 }

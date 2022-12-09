@@ -13,12 +13,10 @@ public abstract class Command {
   public String name;
   public String description;
   public final List<OptionData> args;
-  public final List<SubcommandData> subCommands;
 
   public Command(DiscordBot bot) {
     this.bot = bot;
     this.args = new ArrayList<>();
-    this.subCommands = new ArrayList<>();
   }
 
   public abstract void execute(SlashCommandInteractionEvent event);

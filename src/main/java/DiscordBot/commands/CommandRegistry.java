@@ -31,7 +31,8 @@ public class CommandRegistry extends ListenerAdapter {
         new SkipCommand(bot),
         new StopCommand(bot),
         new VolumeCommand(bot),
-        new ClearCommand(bot)
+        new ClearCommand(bot),
+        new HelpCommand(bot)
     );
   }
 
@@ -41,9 +42,6 @@ public class CommandRegistry extends ListenerAdapter {
     for (Command command : commands) {
       SlashCommandData slashCommand = Commands.slash(command.name, command.description)
           .addOptions(command.args);
-      if (!command.subCommands.isEmpty()) {
-        slashCommand.addSubcommands(command.subCommands);
-      }
       commandData.add(slashCommand);
     }
     return commandData;
