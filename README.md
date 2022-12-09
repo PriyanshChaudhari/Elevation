@@ -5,7 +5,7 @@ A [Discord](https://discord.com/) bot made using [JDA](https://github.com/DV8Fro
 Bot can play music in [Discord](https://discord.com/) server.
 
 
-## APIs Used
+## Libraries Used
 
  - [JDA(Java Discord API)](https://github.com/DV8FromTheWorld/JDA)
  - [LavaPlayer](https://github.com/sedmelluq/lavaplayer)
