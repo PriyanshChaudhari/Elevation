@@ -33,5 +33,5 @@ Bot can play music in [Discord](https://discord.com/) server.
 ```
 
 
-## 🔗 Links
+## 🔗 Connect with me 🤝
 [![github](https://badgen.net/badge/icon/PriyanshChaudhari/cyan?icon=github&label)](https://github.com/PriyanshChaudhari)
