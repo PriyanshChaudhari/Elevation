@@ -1,6 +1,9 @@
 # Use a JDK image as the base
 FROM openjdk:18-jdk-alpine
 
+# Install Maven
+RUN apk update && apk add maven
+
 # Set the working directory inside the container
 WORKDIR /app
 
