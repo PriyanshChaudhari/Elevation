@@ -36,7 +36,7 @@ public class DiscordBot {
         config.get("TOKEN", System.getenv("TOKEN")));
 
     builder.setStatus(OnlineStatus.ONLINE)
-        .setActivity(Activity.watching("Server Blue Ocean"))
+        .setActivity(Activity.watching("Blue Ocean"))
         .enableIntents(GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MESSAGES,
             GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_VOICE_STATES,
             GatewayIntent.GUILD_PRESENCES)
