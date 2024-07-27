@@ -17,13 +17,21 @@ import net.dv8tion.jda.api.utils.cache.CacheFlag;
 public class DiscordBot {
 
   public final ShardManager shardManager;
-  public MusicListener musicListener = new MusicListener("6a71811453f04eff8fdb80827eb54147",
-      "54a7f88a52f9466a870b24e4f2c7031e");
+  public MusicListener musicListener;
 
 
   //DiscordBot Constructor
   public DiscordBot() {
     Dotenv config = Dotenv.configure().ignoreIfMissing().load();
+
+    System.out.println(config.get("SPOTIFY_CLIENT_ID"));
+    if (config.get("SPOTIFY_CLIENT_ID") == null || config.get("SPOTIFY_TOKEN") == null) {
+      throw new IllegalArgumentException("Spotify credentials are not set in the environment variables.");
+    }
+
+    musicListener = new MusicListener(config.get("SPOTIFY_CLIENT_ID"),
+            config.get("SPOTIFY_TOKEN"));
+
     DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(
         config.get("TOKEN", System.getenv("TOKEN")));
 
